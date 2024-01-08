@@ -23,23 +23,25 @@ def posterior(prior_belief, evidence='101010'):
     output.append(posterior_value)
   return output
 
-steps=1/6
+# steps=1/6
+steps = 0.01
 possible_values = np.arange(0, 1, steps)
-prior_proba = [.1, .8, .1, 0, 0, 0]
+prior_proba = np.ones(possible_values.shape) * steps
+# prior_proba = [.1, .8, .1, 0, 0, 0]
 # prior_proba = [1/6, 1/6, 1/6, 1/6, 1/6, 1/6]
 prior_belief = lambda: zip(possible_values, prior_proba)
 fig, ax = plt.subplots()
 offset = steps/5
-ax.bar(possible_values-offset, prior_proba, color='gray', label='prior', width=offset)
+ax.plot(possible_values-offset, prior_proba, color='gray', label='prior')#, width=offset)
 
 draws = '100000'
-ax.bar(possible_values, posterior(prior_belief, evidence=draws), color='k', label='small_draws', width=offset)
+ax.plot(possible_values, posterior(prior_belief, evidence=draws), color='k', label='small_draws')#, width=offset)
 
 draws = '100000'*2
-ax.bar(possible_values+offset, posterior(prior_belief, evidence=draws), color='b', label='medium_draws', width=offset)
+ax.plot(possible_values+offset, posterior(prior_belief, evidence=draws), color='b', label='medium_draws')#, width=offset)
 
 draws = '100000'*10
-ax.bar(possible_values+offset*2, posterior(prior_belief, evidence=draws), color='r', label='large_draws', width=offset)
+ax.plot(possible_values+offset*2, posterior(prior_belief, evidence=draws), color='r', label='large_draws')#, width=offset)
 
 ax.set_xticks(np.arange(0, 1, steps))
 plt.legend()
